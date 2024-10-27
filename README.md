@@ -1,1 +1,1 @@
-# sti-2024-autumn
+# STI-2024-Autumn
