@@ -1,0 +1,20 @@
+{
+    "C_Cpp.default.cppStandard": "gnu++11",
+    "files.associations": {
+        "atomic": "cpp",
+        "*.tcc": "cpp",
+        "cstdint": "cpp",
+        "random": "cpp",
+        "stdlib.h": "c",
+        "stdint.h": "c",
+        "stdint-gcc.h": "c",
+        "stdio.h": "c",
+        "main.h": "c",
+        "signal.h": "c",
+        "adc.h": "c",
+        "math.h": "c",
+        "usart.h": "c",
+        "crtdefs.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}
