@@ -32,18 +32,17 @@
 #include <stdlib.h>
 #include <complex.h>
 #include <string.h>
-#include "signal.h"
 #include "FO.h"
+#include "signal.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-ALIGN_32BYTES (uint16_t adc1_data[FO_LENGTH_HIGH]) 	__attribute__((section(".ARM.__at_0x30000000")));
+ALIGN_32BYTES (uint16_t adc1_data[FO_LENGTH]) 	__attribute__((section(".ARM.__at_0x30000000")));
 __IO uint8_t AdcConvEnd = 0;
 
-double v[FO_LENGTH_HIGH];
-
+double v[FO_LENGTH];
 
 void adc_init(void)
 {
@@ -57,7 +56,7 @@ void adc_init(void)
 			Error_Handler();
 	}
 
-	if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc1_data, FO_LENGTH_HIGH) != HAL_OK)
+	if (HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc1_data, FO_LENGTH) != HAL_OK)
 	{
 		HAL_UART_Transmit(&huart1,(uint8_t *)"hadc1 error with HAL_ADC_Start_DMA\r\n",
 				sizeof("hadc1 error with HAL_ADC_Start_DMA\r\n"),HAL_MAX_DELAY);
@@ -72,20 +71,19 @@ void adc_init(void)
 }
 
 
-void ADC1_Get(void)
+void ADC_Get(double arr[])
 {
-
 	adc_init();
 	double voltage;
-	char str[50];
+//	char str[50];
 
-	for (uint16_t temp = 0; temp< FO_LENGTH_HIGH;temp++){
+	for (uint16_t temp = 0; temp< FO_LENGTH;temp++){
 		voltage = ((double)adc1_data[temp]*3.3)/65535 *3;
 
-		v[temp] = voltage;
-		sprintf(str , "%.5f" , v[temp]);
-		HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+		arr[temp] = voltage;
+//		sprintf(str , "%.5f" , v[temp]);
+//		HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//		HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
 	}
 }
 
@@ -165,8 +163,15 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
-  ADC1_Get();
-
+  char str[50];
+  ADC_Get(v);
+  double* mag = FFT_Mag(FO_LENGTH, v);
+  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+  {
+	  sprintf(str , "%.5f" , v[i]);
+	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
