@@ -37,6 +37,7 @@ extern "C" {
 #include <string.h>
 #include "signal.h"
 #include "FO.h"
+#include "signals.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

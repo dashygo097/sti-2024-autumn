@@ -33,7 +33,7 @@
 #include <complex.h>
 #include <string.h>
 #include "FO.h"
-#include "signal.h"
+#include "signals.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -165,7 +165,13 @@ int main(void)
 
   char str[50];
   ADC_Get(v);
-  double* mag = FFT_Mag(FO_LENGTH, v);
+  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+  {
+	  sprintf(str , "%.5f" , v[i]);
+	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+  }
+  FFT_Mag(FO_LENGTH, v);
   for (int i = 0 ;i < FO_LENGTH / 2	; i++)
   {
 	  sprintf(str , "%.5f" , v[i]);
