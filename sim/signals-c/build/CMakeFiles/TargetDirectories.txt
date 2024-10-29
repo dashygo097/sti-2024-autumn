@@ -1,0 +1,3 @@
+/Users/dashygo/Dev/Elec/signals-c/build/CMakeFiles/demo.dir
+/Users/dashygo/Dev/Elec/signals-c/build/CMakeFiles/edit_cache.dir
+/Users/dashygo/Dev/Elec/signals-c/build/CMakeFiles/rebuild_cache.dir
