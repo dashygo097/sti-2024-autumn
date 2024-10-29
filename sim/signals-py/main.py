@@ -26,3 +26,5 @@ spectrum = txt2array("./spectrum.txt")
 
 img_draw(waveform)
 plt.show()
+img_draw(spectrum)
+plt.show()
