@@ -13,10 +13,13 @@ int main()
 
     double* v = (double*)malloc(sizeof(double) * FO_LENGTH);
     wave_arg arg = {1.0, 1000.0, 0.0};
-    AM_arg am_arg = {2000000.0, 1.0f};
-    FM_arg fm_arg = {1.0, 2000000.0, 1000.0};
+    // AM_arg am_arg = {2000000.0, 1.0};
+    // FM_arg fm_arg = {1.0, 2000000.0, 1000.0};
+    wave_arg digital_arg = {1.0, 2000000.0, 0.0};
+    
     // SineWave_AM_Generator(v, FO_LENGTH, 8, arg, am_arg);
-    SineWave_FM_Generator(v, FO_LENGTH, 4, arg, fm_arg);
+    // SineWave_FM_Generator(v, FO_LENGTH, 16, arg, fm_arg);
+    ASK_Modulate(v, FO_LENGTH, 32, arg, digital_arg);
 
     fp = fopen("../signals-py/waveform.txt", "w");
     for (int i = 0 ; i < FO_LENGTH; i++)
@@ -26,7 +29,10 @@ int main()
     }
     fclose(fp);
 
+
     FFT_Mag_sqrt(FO_LENGTH, v);
+    int value = Analog_Judge(v);
+    Judger(value);
 
     fp = fopen("../signals-py/spectrum.txt", "w");
     for (int i = 0 ; i < FO_LENGTH; i++)
