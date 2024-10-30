@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 project (demo)
 
 # src inc include
-set(SOURCES src/main.c src/signals.c src/FO.c)
+set(SOURCES src/main.c src/signals.c src/FO.c src/judge.c)
 add_executable(demo ${SOURCES})
 target_include_directories(demo PUBLIC ${PROJECT_SOURCE_DIR}/inc ${PROJECT_SOURCE_DIR}/include)
 
