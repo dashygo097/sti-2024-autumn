@@ -27,6 +27,7 @@ void SineWave_FM_Generator(double wave[], int size, double time, wave_arg arg, F
         wave[i] = fm_arg.amp * sin(2 * M_PI * i * time_step * fm_arg.fre / arg.fre+
             arg.amp * fm_arg.K_f / arg.fre * sin(2 * M_PI * i * time_step ));
     }
+<<<<<<< HEAD
 }
 
 
@@ -45,4 +46,6 @@ void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg dig
         wave[i] = arg.amp * sin(2 * M_PI * i * time_step * arg.fre / digital_arg.fre + arg.phase) * bit;
     }
 
+=======
+>>>>>>> 204327f28ec5841c35c23935335371418f3d5916
 }

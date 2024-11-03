@@ -99,16 +99,13 @@ void FFT_Mag(int size, double x[])
 }
 
 
-double * FFT_Mag_sqrt(int size , double x[])
+void FFT_Mag_sqrt(int size , double x[])
 {
-    double A[size];
-    double complex*X = FFT(size , x);
+    double complex* X = FFT(size , x);
     for (int i = 0 ; i < size ; i++)
     {
-        A[i] = cabs(X[i]) ;
+        x[i] = cabs(X[i]);
     }
-    double* a = A;
-    return a;
 }
 
 double* Square_Window(int size ,int left , int right ,double x[])

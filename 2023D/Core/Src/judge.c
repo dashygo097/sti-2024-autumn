@@ -1,4 +1,5 @@
 #include "judge.h"
+<<<<<<< HEAD
 #include "signals.h"
 #include "main.h"
 #include "adc.h"
@@ -110,3 +111,10 @@ void Judger(int value)
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 28   ,HAL_MAX_DELAY);
     }
 }
+=======
+
+int Analog_Judge(double x[])
+{
+    return 0; 
+}
+>>>>>>> 204327f28ec5841c35c23935335371418f3d5916
