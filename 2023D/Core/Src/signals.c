@@ -1,8 +1,8 @@
 #include "signals.h"
 
-void SineWave_Generator(double wave[], int size, int n_periods, wave_arg arg)
+void SineWave_Generator(double wave[], int size, double time, wave_arg arg)
 {
-    double time_step = (double)n_periods / size;
+    double time_step = (double)time / size;
     for (int i = 0; i < size; i++)
     {
         wave[i] = arg.amp * sin(2 * M_PI * i * time_step + arg.phase);
@@ -14,8 +14,8 @@ void SineWave_AM_Generator(double wave[], int size, double time, wave_arg arg, A
     double time_step = time / size;
     for (int i = 0 ; i < size; i++)
     {
-        wave[i] =(am_arg.U_c + arg.amp * sin(2 * M_PI * i * time_step * arg.fre / am_arg.fre + arg.phase)) * 
-            sin(2 * M_PI * i * time_step + arg.phase);
+        wave[i] =(am_arg.U_c + arg.amp * sin(2 * M_PI * i * time_step + arg.phase)) * 
+            sin(2 * M_PI * i * time_step * am_arg.fre / arg.fre + arg.phase);
     }
 }
 
@@ -24,7 +24,25 @@ void SineWave_FM_Generator(double wave[], int size, double time, wave_arg arg, F
     double time_step = time / size;
     for (int i = 0 ; i < size; i++)
     {
-        wave[i] = arg.amp * sin(arg.phase + 2 * M_PI * i * time_step +
-            fm_arg.amp * fm_arg.K_f / fm_arg.fre * sin(2 * M_PI * i * time_step * fm_arg.fre / arg.fre));
+        wave[i] = fm_arg.amp * sin(2 * M_PI * i * time_step * fm_arg.fre / arg.fre+
+            arg.amp * fm_arg.K_f / arg.fre * sin(2 * M_PI * i * time_step ));
     }
+}
+
+
+void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg)
+{
+    double time_step = (double)size / nbits;
+    int digital_step = size / nbits;
+    int bit = 0;
+    for (int i = 0 ; i < size; i++)
+    {
+        if ((i % digital_step) == 0)
+        {
+            bit = rand() % 2;
+            printf("bit%d: %d\n", i / digital_step, bit);
+        } 
+        wave[i] = arg.amp * sin(2 * M_PI * i * time_step * arg.fre / digital_arg.fre + arg.phase) * bit;
+    }
+
 }

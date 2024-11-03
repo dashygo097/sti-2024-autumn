@@ -34,6 +34,7 @@
 #include <string.h>
 #include "FO.h"
 #include "signals.h"
+#include "judge.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -171,13 +172,15 @@ int main(void)
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
-  FFT_Mag(FO_LENGTH, v);
+  FFT_Mag_sqrt(FO_LENGTH, v);
   for (int i = 0 ;i < FO_LENGTH / 2	; i++)
   {
 	  sprintf(str , "%.5f" , v[i]);
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
+  int value = Analog_Judge(v);
+  Judger(value);
   /* USER CODE END 2 */
 
   /* Infinite loop */

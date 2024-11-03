@@ -1,3 +1,4 @@
 ../Core/Src/signals.c:3:6:SineWave_Generator	72	static
 ../Core/Src/signals.c:12:6:SineWave_AM_Generator	96	static
 ../Core/Src/signals.c:22:6:SineWave_FM_Generator	112	static
+../Core/Src/signals.c:33:6:ASK_Modulate	104	static
