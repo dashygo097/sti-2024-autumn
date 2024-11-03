@@ -1,5 +1,6 @@
 #include "judge.h"
 #include "signals.h"
+#include "FO.h"
 #include "main.h"
 #include "adc.h"
 #include "dac.h"
@@ -14,7 +15,7 @@ int Analog_Judge(double x[])
     double bands[FO_LENGTH / 2];
     double bands_idx[FO_LENGTH / 2];
     double bands_sum = 0;
-//    int main_band_idx = 0;
+    int main_band_idx = 0;
     int n_bands = 0;
     int bands_gap = 0;
     char str[200];
@@ -27,6 +28,7 @@ int Analog_Judge(double x[])
         if (x[i] > main_band)
         {
             main_band = x[i];
+            main_band_idx = i;
         }
     }
     double threshold = main_band * 0.01;
@@ -51,14 +53,10 @@ int Analog_Judge(double x[])
     }
 
     bands_gap = bands_idx[n_bands / 2 + 1] - bands_idx[n_bands / 2];
-	sprintf(str , "number of seperated bands: %d." , n_bands);
+	sprintf(str , "number of separated bands: %d." , n_bands);
 	HAL_UART_Transmit(&huart1,(uint8_t *)str , 28   ,HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-	sprintf(str , "band_gap: %d." , bands_gap);
-	HAL_UART_Transmit(&huart1,(uint8_t *)str , 12   ,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-
-//    printf("number of seperated bands: %d\n", n_bands);
+//    printf("number of separated bands: %d\n", n_bands);
 
     if (n_bands == 1)
     {
@@ -66,10 +64,7 @@ int Analog_Judge(double x[])
     }
     else if (n_bands <= 3)
     {
-    	sprintf(str , "signal fre: %.2lf." ,1.0 * bands_gap / 7);
-    	HAL_UART_Transmit(&huart1,(uint8_t *)str , 17   ,HAL_MAX_DELAY);
-    	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-    	sprintf(str , "degree of moderation: %.2lf" , 1.43 *  (bands_sum - bands[n_bands / 2]) / bands[n_bands / 2]);
+    	sprintf(str , "degree of moderation: %.2lf" ,(bands_sum - bands[n_bands / 2]) / bands[n_bands / 2]);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 26   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
         return 1; 
