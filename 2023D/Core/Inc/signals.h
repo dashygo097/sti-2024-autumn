@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 // optional
-#define FO_LENGTH 1024
+#define FO_LENGTH 8192
 
 typedef struct wave_arg{
     double amp;
