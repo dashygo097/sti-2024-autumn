@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/Users/dashygo/Dev/Elec/sim/signals-c/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc  -I/Users/dashygo/Dev/Elec/sim/signals-c/inc -I/Users/dashygo/Dev/Elec/sim/signals-c/include -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/demo.dir/src/main.c.o -c /Users/dashygo/Dev/Elec/sim/signals-c/src/main.c",
+  "file": "/Users/dashygo/Dev/Elec/sim/signals-c/src/main.c",
+  "output": "CMakeFiles/demo.dir/src/main.c.o"
+},
+{
+  "directory": "/Users/dashygo/Dev/Elec/sim/signals-c/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc  -I/Users/dashygo/Dev/Elec/sim/signals-c/inc -I/Users/dashygo/Dev/Elec/sim/signals-c/include -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/demo.dir/src/signals.c.o -c /Users/dashygo/Dev/Elec/sim/signals-c/src/signals.c",
+  "file": "/Users/dashygo/Dev/Elec/sim/signals-c/src/signals.c",
+  "output": "CMakeFiles/demo.dir/src/signals.c.o"
+},
+{
+  "directory": "/Users/dashygo/Dev/Elec/sim/signals-c/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc  -I/Users/dashygo/Dev/Elec/sim/signals-c/inc -I/Users/dashygo/Dev/Elec/sim/signals-c/include -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/demo.dir/src/FO.c.o -c /Users/dashygo/Dev/Elec/sim/signals-c/src/FO.c",
+  "file": "/Users/dashygo/Dev/Elec/sim/signals-c/src/FO.c",
+  "output": "CMakeFiles/demo.dir/src/FO.c.o"
+},
+{
+  "directory": "/Users/dashygo/Dev/Elec/sim/signals-c/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/cc  -I/Users/dashygo/Dev/Elec/sim/signals-c/inc -I/Users/dashygo/Dev/Elec/sim/signals-c/include -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -o CMakeFiles/demo.dir/src/judge.c.o -c /Users/dashygo/Dev/Elec/sim/signals-c/src/judge.c",
+  "file": "/Users/dashygo/Dev/Elec/sim/signals-c/src/judge.c",
+  "output": "CMakeFiles/demo.dir/src/judge.c.o"
+}
+]

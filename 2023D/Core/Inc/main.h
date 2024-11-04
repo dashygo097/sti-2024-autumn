@@ -54,6 +54,7 @@ extern "C" {
 /* USER CODE BEGIN EM */
 
 extern ALIGN_32BYTES (uint16_t adc1_data[FO_LENGTH]) 	__attribute__((section(".ARM.__at_0x30000000")));
+extern ALIGN_32BYTES (uint16_t Dat[200]) 	__attribute__((section(".ARM.__at_0x38000000")));
 
 /* USER CODE END EM */
 

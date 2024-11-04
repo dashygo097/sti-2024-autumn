@@ -33,7 +33,11 @@ int Analog_Judge(double x[])
     bands_gap = bands_idx[n_bands / 2 + 1] - bands_idx[n_bands / 2];
     printf("number of seperated bands: %d\n", n_bands);
 
-    if (n_bands == 1)
+    if (n_bands == 0)
+    {
+        return -1;
+    }
+    else if (n_bands == 1)
     {
         return 0;
     }
@@ -42,25 +46,70 @@ int Analog_Judge(double x[])
         printf("degree of modulation: %.2lf\n", (bands_sum - bands[n_bands / 2]) / bands[n_bands / 2]);
         return 1; 
     } 
-    else if (n_bands > 3 && bands_gap > 20)
+    else if (n_bands > 3 && n_bands < 20)
     {
         return 2; 
     }
     else
     {
-        return -1;
+        return Digital_Judge(x);
     }
 }
     
- 
+int Digital_Judge(double x[])
+{
+    double main_band = 0;
+    int main_band_idx = 0;
+    
+    for (int i = 10; i < FO_LENGTH / 2; i++)
+    {
+        if (x[i] > main_band)
+        {
+            main_band = x[i];
+            main_band_idx = i;
+        }
+    }
+
+    double threshold = main_band * 0.1;
+    int significant_bands = 0;
+    double band_sum = 0;
+    
+    for (int i = main_band_idx - 5; i <= main_band_idx + 5; i++)
+    {
+        if (i >= 100 && i < FO_LENGTH / 2 && x[i] > threshold)
+        {
+            significant_bands++;
+            band_sum += x[i];
+        }
+    }
+    printf("number of significant bands: %d\n", significant_bands);
+
+    if (significant_bands <= 2)
+    {
+        return 3;
+    }
+    else
+    {
+        return 4;
+    }
+}
+
+
+
 void Judger(int value)
 {
-    if (value == 0)
+    if (value == -1)
+        printf("No signal.\n");
+    else if (value == 0)
         printf("Sin signal.\n");
     else if (value == 1)
         printf("AM signal.\n");
     else if (value == 2)
         printf("FM signal.\n");
+    else if (value == 3)
+        printf("ASK signal.\n");
+    else if (value == 4)
+        printf("FSK signal.\n");
     else 
-        printf("Digital modulated signal.\n");
+        printf("No signal.\n");
 }

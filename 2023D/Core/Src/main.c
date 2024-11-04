@@ -43,6 +43,8 @@
 ALIGN_32BYTES (uint16_t adc1_data[FO_LENGTH]) 	__attribute__((section(".ARM.__at_0x30000000")));
 __IO uint8_t AdcConvEnd = 0;
 
+ALIGN_32BYTES (uint16_t Dat[200]) 	__attribute__((section(".ARM.__at_0x38000000")));
+
 double v[FO_LENGTH];
 
 void adc_init(void)

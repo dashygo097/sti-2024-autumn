@@ -46,3 +46,22 @@ void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg dig
     }
 
 }
+
+void FSK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg)
+{
+    double time_step = (double)size / nbits;
+    int digital_step = size / nbits;
+    int bit = 0;
+    double freq;
+    for (int i = 0; i < size; i++)
+    {
+        if ((i % digital_step) == 0)
+        {
+            bit = rand() % 2;
+            printf("bit%d: %d\n", i / digital_step, bit);
+        }
+        freq = bit ? arg.fre - digital_arg.fre : arg.fre;
+        wave[i] = arg.amp * sin(2 * M_PI * i * time_step * freq / digital_arg.fre + arg.phase);
+    }
+
+}
