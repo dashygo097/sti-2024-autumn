@@ -46,6 +46,7 @@ __IO uint8_t AdcConvEnd = 0;
 ALIGN_32BYTES (uint16_t Dat[200]) 	__attribute__((section(".ARM.__at_0x38000000")));
 
 double v[FO_LENGTH];
+double demodulated_signal[200];
 
 void adc_init(void)
 {
@@ -164,6 +165,7 @@ int main(void)
   MX_TIM7_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   char str[50];
@@ -183,12 +185,29 @@ int main(void)
   }
   int value = Analog_Judge(v);
   Judger(value);
+
+  wave_arg arg = {0.5, 1000.0, 0.0};
+
+
+
+  SineWave_Generator(demodulated_signal, 200, 1, arg);
+  for (int i = 0 ; i < 200 ; i++)
+  {
+	  Dat[i] = (uint16_t)(demodulated_signal[i] * 4095 + 2048);
+  }
+  HAL_DAC_Start_DMA(&hdac1,DAC_CHANNEL_2,(uint32_t *)Dat,200,DAC_ALIGN_12B_R);
+  HAL_TIM_Base_Start(&htim6);
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

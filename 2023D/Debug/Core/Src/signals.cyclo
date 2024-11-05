@@ -1,4 +1,6 @@
 ../Core/Src/signals.c:3:6:SineWave_Generator	2
 ../Core/Src/signals.c:12:6:SineWave_AM_Generator	2
 ../Core/Src/signals.c:22:6:SineWave_FM_Generator	2
-../Core/Src/signals.c:33:6:ASK_Modulate	3
+../Core/Src/signals.c:34:6:ASK_Modulate	3
+../Core/Src/signals.c:54:6:FSK_Modulate	4
+../Core/Src/signals.c:78:6:mod	1
