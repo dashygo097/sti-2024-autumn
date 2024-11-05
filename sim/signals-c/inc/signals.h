@@ -37,6 +37,8 @@ void SineWave_FM_Generator(double wave[], int size, double time, wave_arg arg, F
 void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg);
 void FSK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg);
 
+void mod(double x, double mod);
+
 void ASK_Demodulate(double x[]);
 void FSK_Demodulate(double x[]);
 void PSK_Demodulate(double x[]);

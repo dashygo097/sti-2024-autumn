@@ -61,7 +61,7 @@ int Digital_Judge(double x[])
     double main_band = 0;
     int main_band_idx = 0;
     
-    for (int i = 10; i < FO_LENGTH / 2; i++)
+    for (int i = 50; i < FO_LENGTH / 2 - 50; i++)
     {
         if (x[i] > main_band)
         {
@@ -70,21 +70,30 @@ int Digital_Judge(double x[])
         }
     }
 
-    double threshold = main_band * 0.1;
+    double threshold = main_band * 0.4;
     int significant_bands = 0;
     double band_sum = 0;
     
-    for (int i = main_band_idx - 5; i <= main_band_idx + 5; i++)
+    for (int i = main_band_idx - 100; i <= main_band_idx + 100; i++)
     {
         if (i >= 100 && i < FO_LENGTH / 2 && x[i] > threshold)
         {
-            significant_bands++;
-            band_sum += x[i];
+            int flag = 1;
+            for (int j = i - 5; j < i + 5; j++)
+            {
+                if (x[j] > x[i])
+                    flag = 0;
+            }
+            if (flag == 1)
+            {
+                significant_bands++;
+                band_sum += x[i];
+            }
         }
     }
     printf("number of significant bands: %d\n", significant_bands);
 
-    if (significant_bands <= 2)
+    if (significant_bands < 2)
     {
         return 3;
     }

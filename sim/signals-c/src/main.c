@@ -12,7 +12,7 @@ int main()
 {
 
     double* v = (double*)malloc(sizeof(double) * FO_LENGTH);
-    wave_arg arg = {1.0, 1000.0, 0.0};
+    wave_arg arg = {1.0, 5000.0, 0.0};
     // AM_arg am_arg = {2000000.0, 1.0};
     // FM_arg fm_arg = {1.0, 2000000.0, 1000.0};
     wave_arg digital_arg = {1.0, 2000000.0, 0.0};
