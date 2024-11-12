@@ -4,8 +4,6 @@
 ../Core/Src/FO.c:49:17:FFT	11
 ../Core/Src/FO.c:88:6:FFT_Mag	2
 ../Core/Src/FO.c:102:6:FFT_Mag_sqrt	2
-../Core/Src/FO.c:111:9:Square_Window	4
-../Core/Src/FO.c:130:9:FFT_Bartlett	3
-../Core/Src/FO.c:150:9:Hamming	4
-../Core/Src/FO.c:171:9:FFT_Welch	5
-../Core/Src/FO.c:188:9:Blackman	4
+../Core/Src/FO.c:111:6:Square_Window	4
+../Core/Src/FO.c:127:6:Hamming	4
+../Core/Src/FO.c:146:6:Blackman	4

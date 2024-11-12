@@ -169,21 +169,26 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   char str[50];
+  double v_cpy[FO_LENGTH];
   ADC_Get(v);
-  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+  for (int i = 1 ;i < FO_LENGTH	; i++)
   {
 	  sprintf(str , "%.5f" , v[i]);
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
+  memcpy(v_cpy, v, FO_LENGTH);
+
+  Hamming(FO_LENGTH, (821 - FO_LENGTH/16), (821 + FO_LENGTH / 16), 0.46, v);
   FFT_Mag_sqrt(FO_LENGTH, v);
+
   for (int i = 0 ;i < FO_LENGTH / 2	; i++)
   {
 	  sprintf(str , "%.5f" , v[i]);
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
-  int value = Analog_Judge(v);
+  int value = Analog_Judge(v, v_cpy);
   Judger(value);
 
   wave_arg arg = {0.5, 1000.0, 0.0};

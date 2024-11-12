@@ -108,100 +108,55 @@ void FFT_Mag_sqrt(int size , double x[])
     }
 }
 
-double* Square_Window(int size ,int left , int right ,double x[])
+void Square_Window(int size ,int left , int right ,double x[])
 {
-    double A[size];
-    double * a = A;
     for (int i = 0 ; i < size ; i ++)
     {
         if (i <= right && i >= left)
         {
-            A[i] = 10*x[i];
+            x[i] = 10*x[i];
         }
         else
         {
-            A[i] = 0;
+            x[i] = 0;
         }
     }
-    return a;
 }
 
 
-double* FFT_Bartlett(int size ,int div , double x[])
+void Hamming(int size , int left , int right , double para , double x[])
 {
-    double P[size];
-    double * p = P;
-    double complex* X;
-    for (int i = 0; i < div ; i++)
-    {
-        X = FFT(size , Square_Window(size,size/div * i, size/div *(i+1), x));
-        for (int j = 0 ; j < size ; j++)
-        {
-            P[j] += creal(X[j]) * creal(X[j])/div + cimag(X[j]) * cimag(X[j])/div ;
-        }
-
-    }
-
-    return p;
-
-}
-
-
-double* Hamming(int size , int left , int right , double para , double x[])
-{
-    double A[size];
-    double *a = A ;
 
     for (int i = 0 ; i < size ; i++)
     {
     	if (i < right && i >=  left)
     	{
-    		A[i] = 10* x[i] * ((1 - para) - para* cos(2*M_PI*(i - left )/(right - left - 1)));
+    		x[i] = 10* x[i] * ((1 - para) - para* cos(2*M_PI*(i - left )/(right - left - 1)));
     	}
     	else
     	{
-    		A[i] = 0;
+    		x[i] = 0;
     	}
     }
-    return a;
 }
 
 
 
-double* FFT_Welch(int size ,int div , double para, double x[])
-{
-    double P[size + 100] ;
-    double complex* X;
-    for (int i = 0; i < div * 2 - 1 ; i++)
-    {
-        X = FFT(size , Hamming(size,(size/div/2)*(i) ,(size/div/2)*(i+2) , para , x));
-        for (int j = 0 ; j < size ; j++)
-        {
-           P[j] += creal(X[j]) * creal(X[j])/size /2 /div+ cimag(X[j]) * cimag(X[j])/size / 2 / div;
-        }
-    }
-    double * p =P;
 
-    return p;
-}
-
-double* Blackman(int size , int left , int right , double x[])
+void Blackman(int size , int left , int right , double x[])
 {
-    double A[size];
-    double *a = A ;
 
     for (int i = 0 ; i < size ; i++)
     {
     	if (i < right && i >=  left)
     	{
-    		A[i] = 10* x[i] * ( 0.42 + 0.08* cos(4*M_PI*(i - left )/(right - left - 1)) - 0.5*cos(2*M_PI*(i - left )/(right - left - 1)));
+    		x[i] = 10* x[i] * ( 0.42 + 0.08* cos(4*M_PI*(i - left )/(right - left - 1)) - 0.5*cos(2*M_PI*(i - left )/(right - left - 1)));
     	}
     	else
     	{
-    		A[i] = 0;
+    		x[i] = 0;
     	}
     }
-    return a;
 }
 
 

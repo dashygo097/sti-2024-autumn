@@ -10,10 +10,10 @@
 #include "usart.h"
 #include "gpio.h"
 
-int Analog_Judge(double x[])
+int Analog_Judge(double x[], double v[])
 {
-    double bands[FO_LENGTH / 2];
-    int bands_idx[FO_LENGTH / 2];
+    double bands[FO_LENGTH / 16];
+    int bands_idx[FO_LENGTH / 16];
     double bands_sum = 0;
     int main_band_idx = 0;
     int n_bands = 0;
@@ -52,16 +52,24 @@ int Analog_Judge(double x[])
         }
     }
 
+    for (int i = 0 ; i < n_bands; i++)
+    {
+    	sprintf(str , "separated bands idx: %d." , bands_idx[i]);
+    	HAL_UART_Transmit(&huart1,(uint8_t *)str , 26, HAL_MAX_DELAY);
+    	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+    }
+
+
     bands_gap = bands_idx[n_bands / 2 + 1] - bands_idx[n_bands / 2];
 	sprintf(str , "number of separated bands: %d." , n_bands);
-	HAL_UART_Transmit(&huart1,(uint8_t *)str , 28   ,HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart1,(uint8_t *)str , 30   ,HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
 
 	sprintf(str , "bands' gap: %d." , bands_gap);
 	HAL_UART_Transmit(&huart1,(uint8_t *)str , 15   ,HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
 
-	sprintf(str , "frequency: %.2lf kHz." , (double)bands_gap / 40.6);
+	sprintf(str , "frequency: %.2lf kHz." , (double)bands_gap / 40.600);
 	HAL_UART_Transmit(&huart1,(uint8_t *)str , 20   ,HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
 
@@ -86,12 +94,12 @@ int Analog_Judge(double x[])
     }
     else
     {
-        return Digital_Judge(x);
+        return Digital_Judge(x, v);
     }
 }
     
 
-int Digital_Judge(double x[])
+int Digital_Judge(double x[], double v[])
 {
     double main_band = 0;
     int main_band_idx = 0;
@@ -127,6 +135,15 @@ int Digital_Judge(double x[])
             }
         }
     }
+
+    for (int i = 50 ; i < FO_LENGTH / 2;  i++)
+    {
+    	if (abs(v[i] - v[i-1]) > 1)
+    	{
+    		return 5;
+    	}
+    }
+
 	sprintf(str , "number of significant bands: %d." , significant_bands);
 	HAL_UART_Transmit(&huart1,(uint8_t *)str , 31   ,HAL_MAX_DELAY);
 	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
@@ -177,6 +194,11 @@ void Judger(int value)
     else if (value == 4)
     {
     	sprintf(str , "FSK signal.\n");
+    	HAL_UART_Transmit(&huart1,(uint8_t *)str , 28   ,HAL_MAX_DELAY);
+    }
+    else if (value == 5)
+    {
+    	sprintf(str, "PSK signal.\n");
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 28   ,HAL_MAX_DELAY);
     }
     else

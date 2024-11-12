@@ -4,8 +4,8 @@
 #include <math.h>
 #include <stdlib.h>
 
-int Analog_Judge(double x[]);
-int Digital_Judge(double x[]);
+int Analog_Judge(double x[], double v[]);
+int Digital_Judge(double x[], double v[]);
 void Judger(int value);
 
 
