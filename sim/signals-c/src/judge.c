@@ -59,14 +59,25 @@ int Analog_Judge(double x[])
 int Digital_Judge(double x[])
 {
     double main_band = 0;
+    double sec_band = 0;
     int main_band_idx = 0;
+    int sec_band_idx = 0;
+
     
-    for (int i = 50; i < FO_LENGTH / 2 - 50; i++)
+     for (int i = 50; i < FO_LENGTH / 2 - 50; i++)
     {
         if (x[i] > main_band)
         {
             main_band = x[i];
             main_band_idx = i;
+        }
+    }   
+    for (int i = 50; i < FO_LENGTH / 2 - 50; i++)
+    {
+        if (x[i] > sec_band && i != main_band_idx)
+        {
+            sec_band = x[i];
+            sec_band_idx = i;
         }
     }
 
@@ -92,14 +103,19 @@ int Digital_Judge(double x[])
         }
     }
     printf("number of significant bands: %d\n", significant_bands);
+    printf("distance between main and sec band: %d\n", abs(main_band_idx - sec_band_idx));
 
     if (significant_bands < 2)
     {
         return 3;
     }
-    else
+    else if (significant_bands == 2)
     {
         return 4;
+    }
+    else
+    {
+        return 5;
     }
 }
 
@@ -119,6 +135,8 @@ void Judger(int value)
         printf("ASK signal.\n");
     else if (value == 4)
         printf("FSK signal.\n");
+    else if (value == 5)
+        printf("PSK signal.\n");
     else 
-        printf("No signal.\n");
+        printf("Unknown signal.\n");
 }

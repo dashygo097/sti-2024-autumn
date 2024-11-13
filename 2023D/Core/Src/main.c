@@ -179,7 +179,7 @@ int main(void)
   }
   memcpy(v_cpy, v, FO_LENGTH);
 
-  Hamming(FO_LENGTH, (821 - FO_LENGTH/16), (821 + FO_LENGTH / 16), 0.46, v);
+  Blackman(FO_LENGTH, (2457 - FO_LENGTH/ 4), (2457 + FO_LENGTH / 4), v);
   FFT_Mag_sqrt(FO_LENGTH, v);
 
   for (int i = 0 ;i < FO_LENGTH / 2	; i++)

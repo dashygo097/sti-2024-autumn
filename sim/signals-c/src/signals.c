@@ -71,6 +71,23 @@ void FSK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg dig
 
 }
 
+void PSK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg)
+{
+    double time_step = (double)nbits / size;
+    int digital_step = size / nbits;
+    int bit = 0;
+    double phase = arg.phase;
+    for (int i = 0; i < size; i++)
+    {
+        if ((i % digital_step) == 0)
+        {
+            bit = rand() % 2;
+            printf("bit%d: %d\n", i / digital_step, bit);
+        }
+        wave[i] = arg.amp * sin(2 * M_PI * time_step * digital_arg.fre / arg.fre * i + M_PI * bit + M_PI / 3);
+    }
+}
+
 void mod(double x, double mod)
 {
     x = x - (int)(x / mod) * mod;

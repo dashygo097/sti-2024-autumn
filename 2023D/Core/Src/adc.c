@@ -107,7 +107,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC;
     PeriphClkInitStruct.PLL2.PLL2M = 10;
     PeriphClkInitStruct.PLL2.PLL2N = 384;
-    PeriphClkInitStruct.PLL2.PLL2P = 6;
+    PeriphClkInitStruct.PLL2.PLL2P = 12;
     PeriphClkInitStruct.PLL2.PLL2Q = 2;
     PeriphClkInitStruct.PLL2.PLL2R = 2;
     PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_1;
