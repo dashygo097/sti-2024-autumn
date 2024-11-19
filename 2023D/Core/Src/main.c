@@ -179,7 +179,7 @@ int main(void)
   }
   memcpy(v_cpy, v, FO_LENGTH);
 
-  Blackman(FO_LENGTH, (2457 - FO_LENGTH/ 4), (2457 + FO_LENGTH / 4), v);
+  Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
   FFT_Mag_sqrt(FO_LENGTH, v);
 
   for (int i = 0 ;i < FO_LENGTH / 2	; i++)
@@ -191,17 +191,17 @@ int main(void)
   int value = Analog_Judge(v, v_cpy);
   Judger(value);
 
-  wave_arg arg = {0.5, 1000.0, 0.0};
-
-
-
-  SineWave_Generator(demodulated_signal, 200, 1, arg);
-  for (int i = 0 ; i < 200 ; i++)
-  {
-	  Dat[i] = (uint16_t)(demodulated_signal[i] * 4095 + 2048);
-  }
-  HAL_DAC_Start_DMA(&hdac1,DAC_CHANNEL_2,(uint32_t *)Dat,200,DAC_ALIGN_12B_R);
-  HAL_TIM_Base_Start(&htim6);
+//  wave_arg arg = {0.5, 1000.0, 0.0};
+//
+//
+//
+//  SineWave_Generator(demodulated_signal, 200, 1, arg);
+//  for (int i = 0 ; i < 200 ; i++)
+//  {
+//	  Dat[i] = (uint16_t)(demodulated_signal[i] * 4095 + 2048);
+//  }
+//  HAL_DAC_Start_DMA(&hdac1,DAC_CHANNEL_2,(uint32_t *)Dat,200,DAC_ALIGN_12B_R);
+//  HAL_TIM_Base_Start(&htim6);
 
 
 

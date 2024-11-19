@@ -1,3 +1,3 @@
-../Core/Src/judge.c:13:5:Analog_Judge	18
-../Core/Src/judge.c:107:5:Digital_Judge	13
-../Core/Src/judge.c:170:6:Judger	8
+../Core/Src/judge.c:13:5:Analog_Judge	25
+../Core/Src/judge.c:119:5:Digital_Judge	27
+../Core/Src/judge.c:218:6:Judger	8
