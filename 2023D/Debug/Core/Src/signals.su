@@ -1,6 +1,7 @@
 ../Core/Src/signals.c:3:6:SineWave_Generator	72	static
 ../Core/Src/signals.c:12:6:SineWave_AM_Generator	96	static
-../Core/Src/signals.c:22:6:SineWave_FM_Generator	112	static
-../Core/Src/signals.c:34:6:ASK_Modulate	104	static
-../Core/Src/signals.c:51:6:FSK_Modulate	128	static
-../Core/Src/signals.c:75:6:mod	24	static
+../Core/Src/signals.c:22:6:SineWave_FM_Generator	104	static
+../Core/Src/signals.c:33:6:SineWave_FM_Demodulate	131176	static
+../Core/Src/signals.c:61:6:ASK_Modulate	104	static
+../Core/Src/signals.c:78:6:FSK_Modulate	128	static
+../Core/Src/signals.c:102:6:mod	24	static

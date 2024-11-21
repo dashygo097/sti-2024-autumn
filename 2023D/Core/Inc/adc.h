@@ -42,7 +42,7 @@ void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
-void MX_ADC1ForSampling_Init();
+void MX_ADC1Sampling_Handler(double sample_fre, int mode);
 
 /* USER CODE END Prototypes */
 

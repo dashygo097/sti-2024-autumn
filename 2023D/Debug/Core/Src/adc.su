@@ -1,4 +1,4 @@
 ../Core/Src/adc.c:31:6:MX_ADC1_Init	48	static
 ../Core/Src/adc.c:94:6:HAL_ADC_MspInit	240	static
 ../Core/Src/adc.c:159:6:HAL_ADC_MspDeInit	16	static
-../Core/Src/adc.c:185:6:MX_ADC1ForSampling_Init	48	static
+../Core/Src/adc.c:185:6:MX_ADC1Sampling_Handler	64	static

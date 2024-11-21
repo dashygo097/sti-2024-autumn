@@ -323,9 +323,10 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
 /* USER CODE BEGIN 1 */
 
-void PSK_Demodulate(double x[])
+void Demodulate_Init(double wave[], double spec[], int size, int mode)
 {
-	MX_ADC1ForSampling_Init();
+	double _ = 0;
+	MX_ADC1Sampling_Handler(_, mode);
 }
 
 //void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)

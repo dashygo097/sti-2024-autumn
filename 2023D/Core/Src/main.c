@@ -46,20 +46,19 @@ __IO uint8_t AdcConvEnd = 0;
 ALIGN_32BYTES (uint16_t Dat[200]) 	__attribute__((section(".ARM.__at_0x38000000")));
 
 double v[FO_LENGTH];
-double demodulated_signal[FO_LENGTH];
+double demodulated_signal[200];
+double out[FO_LENGTH] = {0};
+double sample_fre = 0;
 int value = 0;
+
+wave_arg arg;
+mod_arg mod_config = {2000000.0, 0.0};
+
 
 void adc_init(void)
 {
 	HAL_UART_Transmit(&huart1,(uint8_t *)"start_adc\n",sizeof("start_adc\n"),HAL_MAX_DELAY);
-	if (value == 5)
-	{
-		MX_ADC1ForSampling_Init();
-	}
-	else
-	{
-		MX_ADC1_Init();
-	}
+	MX_ADC1Sampling_Handler(sample_fre, value);
 	HAL_Delay(1);
 	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
 	{
@@ -180,25 +179,60 @@ int main(void)
   char str[50];
   double v_cpy[FO_LENGTH];
   ADC_Get(v);
-//  for (int i = 1 ;i < FO_LENGTH	; i++)
-//  {
-//	  sprintf(str , "%.5f" , v[i]);
-//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
-//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-//  }
-  memcpy(v_cpy, v, FO_LENGTH);
-
-  Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
-  FFT_Mag_sqrt(FO_LENGTH, v);
-
-  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+  for (int i = 1 ;i < FO_LENGTH	; i++)
   {
 	  sprintf(str , "%.5f" , v[i]);
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
-  value = Analog_Judge(v, v_cpy);
+  memcpy(v_cpy, v, FO_LENGTH);
+
+  Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
+  FFT_Mag_sqrt(FO_LENGTH, v);
+
+//  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+//  {
+//	  sprintf(str , "%.5f" , v[i]);
+//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//  }
+  value = Analog_Judge(arg, mod_config, v, v_cpy);
   Judger(value);
+
+//  Demodulate_Init(v_cpy, v, FO_LENGTH, value);
+//
+//  ADC_Get(v);
+//  memcpy(v_cpy, v, FO_LENGTH);
+//
+//  for (int i = 0 ;i < FO_LENGTH ; i++)
+//  {
+//	  sprintf(str , "%.5f" , v[i]);
+//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//  }
+//
+//  Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
+//  FFT_Mag_sqrt(FO_LENGTH, v);
+
+//  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+//  {
+//	  sprintf(str , "%.5f" , v[i]);
+//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//  }
+
+
+//  SineWave_FM_Demodulate(out, v_cpy, FO_LENGTH, 5, mod_config, arg);
+//
+//  for (int i = 0 ;i < FO_LENGTH ; i++)
+//  {
+//	  sprintf(str , "%.5f" , out[i]);
+//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//  }
+
+
+
 
 
 //  wave_arg arg = {0.5, 1000.0, 0.0};

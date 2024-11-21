@@ -182,7 +182,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
 /* USER CODE BEGIN 1 */
 
-void MX_ADC1ForSampling_Init(void)
+void MX_ADC1Sampling_Handler(double sample_fre, int mode)
 {
 
   /* USER CODE BEGIN ADC1_Init 0 */
@@ -230,7 +230,19 @@ void MX_ADC1ForSampling_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_3;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_32CYCLES_5;
+  if (mode == 5)
+  {
+	  sConfig.SamplingTime = ADC_SAMPLETIME_32CYCLES_5;
+  }
+  else if (mode == 2)
+  {
+	  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+	  sample_fre = 80000000.0 / (12.5 + 2.5);
+  }
+  else
+  {
+	  sConfig.SamplingTime = ADC_SAMPLETIME_387CYCLES_5;
+  }
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;

@@ -10,7 +10,7 @@
 #include "usart.h"
 #include "gpio.h"
 
-int Analog_Judge(double x[], double v[])
+int Analog_Judge(wave_arg arg, mod_arg mod_config, double x[], double v[])
 {
     double bands[FO_LENGTH / 16];
     int bands_idx[FO_LENGTH / 16];
@@ -54,9 +54,9 @@ int Analog_Judge(double x[], double v[])
 
 
     bands_gap = bands_idx[n_bands / 2 + 1] - bands_idx[n_bands / 2];
-//	sprintf(str , "number of separated bands: %d." , n_bands);
-//	HAL_UART_Transmit(&huart1,(uint8_t *)str , 30   ,HAL_MAX_DELAY);
-//	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+	sprintf(str , "number of separated bands: %d." , n_bands);
+	HAL_UART_Transmit(&huart1,(uint8_t *)str , 30   ,HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
 
 	for (int i = 0; i < n_bands; i++)
 	{
@@ -64,11 +64,15 @@ int Analog_Judge(double x[], double v[])
 	}
 	for (int i = 0 ; i < n_bands / 2; i++)
 	{
-		if (abs(bands[center_idx - i] - bands[center_idx + i]) > 50)
+		if (abs(bands[center_idx - i] - bands[center_idx + i]) > 100)
 		{
 			is_symmetric = 0;
 		}
 	}
+
+	arg.amp = 0.0;
+	arg.fre = (double)bands_gap / 81.000;
+	arg.phase = 0.0;
 
 
 	if (n_bands == 0)
@@ -104,6 +108,7 @@ int Analog_Judge(double x[], double v[])
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 20   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
     	// This params come from LR with maximum error about 0.1(often non-int modulation degree). So this should be optimized.
+    	mod_config.m = (bands_sum / main_band - 1.119) / 1.479 * (double)bands_gap / 81.000;
     	sprintf(str , "degree of modulation: %.3lf." ,(bands_sum / main_band - 1.119) / 1.479);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 29   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
@@ -193,7 +198,7 @@ int Digital_Judge(double x[], double v[])
     else if (!is_adjoint && is_centered)
     {
     	bands_gap = bands_idx[significant_bands / 2 + 1] - bands_idx[significant_bands / 2];
-    	sprintf(str , "bit rate: %.2lf kbps." , (double)bands_gap / 40.500 / 2);
+    	sprintf(str , "bit rate: %.2lf kbps." , (double)bands_gap / 40.500 );
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 20   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
         return 3;

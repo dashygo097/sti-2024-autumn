@@ -4,7 +4,9 @@
 #include <math.h>
 #include <stdlib.h>
 
-int Analog_Judge(double x[], double v[]);
+#include "signals.h"
+
+int Analog_Judge(wave_arg arg, mod_arg mod_arg,  double x[], double v[]);
 int Digital_Judge(double x[], double v[]);
 void Judger(int value);
 

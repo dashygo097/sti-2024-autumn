@@ -51,7 +51,7 @@ void MX_TIM15_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
-void PSK_Demodulate(double x[]);
+void Demodulate_Init(double wave[], double spec[], int size, int mode);
 
 /* USER CODE END Prototypes */
 
