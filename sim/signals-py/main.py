@@ -16,15 +16,21 @@ def txt2array(file):
     return np.array(waveform)
 
 
-def img_draw(array):
+def img_draw(array, label=None):
     length = array.shape[0]
-    plt.plot(range(length), array)
+    if label == None:
+        plt.plot(range(length), array)
+    else:
+        plt.plot(range(length), array, label=label)
 
 
 waveform = txt2array("./waveform.txt")
-spectrum = txt2array("./spectrum.txt")
+out_demodulated = txt2array("./demodulated.txt")
+out_spectrum = txt2array("./spectrum.txt")
 
-img_draw(waveform)
+img_draw(waveform, "waveform")
+img_draw(out_demodulated, "demodulated")
+plt.legend()
 plt.show()
-img_draw(spectrum)
+img_draw(out_spectrum)
 plt.show()

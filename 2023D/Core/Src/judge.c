@@ -103,7 +103,7 @@ int Analog_Judge(double x[], double v[])
     	sprintf(str , "frequency: %.2lf kHz." , (double)bands_gap / 81.000);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 20   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-    	// This params come from LR with maximum error about 1.0(often non-int modulation degree). So this should be optimized.
+    	// This params come from LR with maximum error about 0.1(often non-int modulation degree). So this should be optimized.
     	sprintf(str , "degree of modulation: %.3lf." ,(bands_sum / main_band - 1.119) / 1.479);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 29   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
@@ -204,6 +204,7 @@ int Digital_Judge(double x[], double v[])
     	sprintf(str , "bit rate: %.2lf kbps." , (double)bands_gap / 40.500 / 4);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 20   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+
     	return 5;
     }
     else {

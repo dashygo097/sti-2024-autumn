@@ -46,12 +46,20 @@ __IO uint8_t AdcConvEnd = 0;
 ALIGN_32BYTES (uint16_t Dat[200]) 	__attribute__((section(".ARM.__at_0x38000000")));
 
 double v[FO_LENGTH];
-double demodulated_signal[200];
+double demodulated_signal[FO_LENGTH];
+int value = 0;
 
 void adc_init(void)
 {
 	HAL_UART_Transmit(&huart1,(uint8_t *)"start_adc\n",sizeof("start_adc\n"),HAL_MAX_DELAY);
-	MX_ADC1_Init();
+	if (value == 5)
+	{
+		MX_ADC1ForSampling_Init();
+	}
+	else
+	{
+		MX_ADC1_Init();
+	}
 	HAL_Delay(1);
 	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
 	{
@@ -166,17 +174,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_ADC1_Init();
   MX_TIM6_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
   char str[50];
   double v_cpy[FO_LENGTH];
   ADC_Get(v);
-  for (int i = 1 ;i < FO_LENGTH	; i++)
-  {
-	  sprintf(str , "%.5f" , v[i]);
-	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
-	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-  }
+//  for (int i = 1 ;i < FO_LENGTH	; i++)
+//  {
+//	  sprintf(str , "%.5f" , v[i]);
+//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//  }
   memcpy(v_cpy, v, FO_LENGTH);
 
   Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
@@ -188,8 +197,9 @@ int main(void)
 	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
 	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
   }
-  int value = Analog_Judge(v, v_cpy);
+  value = Analog_Judge(v, v_cpy);
   Judger(value);
+
 
 //  wave_arg arg = {0.5, 1000.0, 0.0};
 //
@@ -203,6 +213,37 @@ int main(void)
 //  HAL_DAC_Start_DMA(&hdac1,DAC_CHANNEL_2,(uint32_t *)Dat,200,DAC_ALIGN_12B_R);
 //  HAL_TIM_Base_Start(&htim6);
 
+//  if (value == 5)
+//  {
+//	  PSK_Demodulate(demodulated_signal);
+//	  ADC_Get(demodulated_signal);
+//	  for (int i = 1 ;i < FO_LENGTH	; i++)
+//	  {
+//		  sprintf(str , "%.5f" , demodulated_signal[i]);
+//		  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+//		  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+//	  }
+//
+//  }
+//
+//  int cnt = 0;
+//
+//  for (int i = 0 ; i < FO_LENGTH - 1; i++)
+//  {
+//	  if ((demodulated_signal[i] - demodulated_signal[i + 1]) > 1)
+//	  {
+//		  Dat[cnt] = (uint16_t)(2048);
+//		  cnt++;
+//	  }
+//	  else if ((demodulated_signal[i] - demodulated_signal[i + 1]) < -1)
+//	  {
+//		  Dat[cnt] = (uint16_t)(4095);
+//		  cnt++;
+//	  }
+//  }
+//
+//  HAL_DAC_Start_DMA(&hdac1,DAC_CHANNEL_2,(uint32_t *)Dat,cnt,DAC_ALIGN_12B_R);
+//  HAL_TIM_Base_Start(&htim6);
 
 
   /* USER CODE END 2 */

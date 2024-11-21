@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 y = np.array([1.202, 1.518, 2.462, 3.958, 4.049, 4.961, 5.715, 6.973, 8.397])
 x = np.array([0.1, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5])
 
-coefficients = np.polyfit(x, y, 1)
+coefficients = np.polyfit(x, y, 3)
 polynomial = np.poly1d(coefficients)
 
 x_ = np.linspace(x.min(), x.max(), 100)

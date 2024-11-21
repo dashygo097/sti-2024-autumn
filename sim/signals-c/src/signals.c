@@ -29,6 +29,32 @@ void SineWave_FM_Generator(double wave[], int size, double time, wave_arg arg, F
     }
 }
 
+void SineWave_FM_Demodulate(double out[], double wave[], int size, double time, FM_arg fm_arg, wave_arg arg)
+{   
+    double* w1 = (double*)malloc(sizeof(double) * FO_LENGTH);
+    double* w2 = (double*)malloc(sizeof(double) * FO_LENGTH);
+    wave_arg arg_delta = {arg.amp, arg.fre, arg.phase + M_PI / 2};
+
+    SineWave_Generator(w1, FO_LENGTH, 4 * fm_arg.fre / arg.fre, arg);
+    SineWave_Generator(w2, FO_LENGTH, 4 * fm_arg.fre / arg.fre, arg_delta);
+    w1[0] = 0;
+    w2[0] = 0;
+    for (int i = 1; i < FO_LENGTH; i++)
+    {
+        w1[i] = w1[i] * wave[i];
+        w1[i] = 0.008 * w1[i] + 0.992 * w1[i - 1];
+        w2[i] = w2[i] * wave[i];
+        w2[i] = 0.008 * w2[i] + 0.992 * w2[i - 1];
+    }
+    out[0] = 0;
+    for (int i = 1; i < FO_LENGTH; i++)
+    {
+        out[i] = w1[i - 1] * w2[i] - w1[i] * w2[i - 1];
+        out[i] = out[i] / (w1[i] * w1[i] + w2[i] * w2[i]);
+        out[i] = 0.0005 * out[i] + 0.9995 * out[i - 1];
+    }
+}
+
 
 void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg)
 {

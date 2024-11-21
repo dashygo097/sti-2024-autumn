@@ -48,9 +48,6 @@ void ASK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg dig
 
 }
 
-
-
-
 void FSK_Modulate(double wave[], int size, int nbits, wave_arg arg, wave_arg digital_arg)
 {
 
