@@ -190,12 +190,12 @@ int main(void)
   Blackman(FO_LENGTH, (1640 - FO_LENGTH/ 4), (1640 + FO_LENGTH / 4), v);
   FFT_Mag_sqrt(FO_LENGTH, v);
 
-//  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
-//  {
-//	  sprintf(str , "%.5f" , v[i]);
-//	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
-//	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
-//  }
+  for (int i = 0 ;i < FO_LENGTH / 2	; i++)
+  {
+	  sprintf(str , "%.5f" , v[i]);
+	  HAL_UART_Transmit(&huart1,(uint8_t *)str , 7   ,HAL_MAX_DELAY);
+	  HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
+  }
   value = Analog_Judge(arg, mod_config, v, v_cpy);
   Judger(value);
 

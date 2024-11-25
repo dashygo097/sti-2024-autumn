@@ -33,9 +33,9 @@ int Analog_Judge(wave_arg arg, mod_arg mod_config, double x[], double v[])
     }
     double threshold = main_band * 0.1;
     
-    for(int i = 1640 - FO_LENGTH / 8; i < 1640 +  FO_LENGTH / 8 ; i++)
+    for(int i = 1640 - FO_LENGTH / 8; i < 1640 +  FO_LENGTH / 8; i++)
     {
-        if(x[i] > threshold && x[i] > 50)
+        if(x[i] > threshold || x[i] > 200)
         {
         	int flag = 1 ;
         	for (int j = i - 2 ; j < i + 2 ; j++)
@@ -64,7 +64,7 @@ int Analog_Judge(wave_arg arg, mod_arg mod_config, double x[], double v[])
 	}
 	for (int i = 0 ; i < n_bands / 2; i++)
 	{
-		if (abs(bands[center_idx - i] - bands[center_idx + i]) > 100)
+		if (abs(bands[center_idx - i] - bands[center_idx + i]) > threshold)
 		{
 			is_symmetric = 0;
 		}
@@ -109,7 +109,8 @@ int Analog_Judge(wave_arg arg, mod_arg mod_config, double x[], double v[])
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
     	// This params come from LR with maximum error about 0.1(often non-int modulation degree). So this should be optimized.
     	mod_config.m = (bands_sum / main_band - 1.119) / 1.479 * (double)bands_gap / 81.000;
-    	sprintf(str , "degree of modulation: %.3lf." ,(bands_sum / main_band - 1.119) / 1.479);
+    	double mod = - 0.3883 + bands_sum / main_band * 0.54 + bands_sum / main_band * bands_sum / main_band * (0.01048);
+    	sprintf(str , "degree of modulation: %.3lf." , mod);
     	HAL_UART_Transmit(&huart1,(uint8_t *)str , 29   ,HAL_MAX_DELAY);
     	HAL_UART_Transmit(&huart1 ,(uint8_t *)"\n", 1 , HAL_MAX_DELAY);
         return 2; 
